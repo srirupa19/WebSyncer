@@ -30,24 +30,23 @@ public class Notification extends ContextWrapper {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String name = channel_name;
-            String description = channel_description;
 
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("NOTF", name, importance);
-            channel.setDescription(description);
+            NotificationChannel channel = new NotificationChannel("NOTF", channel_name, importance);
+            channel.setDescription(channel_description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
         }
     }
 
-    public void createnotf(String content)
+    public void createNotification(String content , String title)
     {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "NOTF")
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("Work Reminder")
+                .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
