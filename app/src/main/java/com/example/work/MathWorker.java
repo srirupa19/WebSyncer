@@ -93,9 +93,9 @@ public class MathWorker extends Worker {
                     public void onResponse(JSONObject response) {
 
                         String text = response.toString();
-                        Toast toast=Toast. makeText(getApplicationContext(),text,Toast. LENGTH_LONG);
-                        toast. setMargin(50,50);
-                        toast. show();
+//                        Toast toast=Toast. makeText(getApplicationContext(),text,Toast. LENGTH_LONG);
+//                        toast. setMargin(50,50);
+//                        toast. show();
 
                         // SENDING TO UI THREAD VIA SHARED PREFERENCES
 
