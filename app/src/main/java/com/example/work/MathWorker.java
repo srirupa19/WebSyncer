@@ -155,10 +155,10 @@ public class MathWorker extends Worker {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                String text = "OOPS";
-                Toast toast=Toast. makeText(getApplicationContext(),text,Toast. LENGTH_LONG);
-                toast. setMargin(50,50);
-                toast. show();
+//                String text = "OOPS";
+//                Toast toast=Toast. makeText(getApplicationContext(),text,Toast. LENGTH_LONG);
+//                toast. setMargin(50,50);
+//                toast. show();
 
                 String TAG = "ERROR";
 
