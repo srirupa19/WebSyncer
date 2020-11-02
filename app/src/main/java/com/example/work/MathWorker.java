@@ -88,6 +88,10 @@ public class MathWorker extends Worker {
                         String weather = "Sunny";
                         String show = "No connection";
                         String title = "Sorry, no data";
+                        int wind_kph = 0;
+                        int precip_mm = 0;
+                        int humidity = 0;
+                        int feelslike_c = 25;
 
 
                         try {
@@ -100,8 +104,12 @@ public class MathWorker extends Worker {
                             temp_c = current.getInt("temp_c");
                             condition = current.getJSONObject("condition");
                             weather = condition.getString("text");
+                            wind_kph = current.getInt("wind_kph");
+                            precip_mm = current.getInt("precip_mm");
+                            humidity = current.getInt("humidity");
+                            feelslike_c = current.getInt("feelslike_c");
 
-                            show =  weather;
+                            show =  "Feels like " + feelslike_c + "°C • " + weather;
                             title = temp_c + "°C " + "in " + city;
 
 
@@ -126,6 +134,10 @@ public class MathWorker extends Worker {
                         editor.putString("localtime" , localtime);
                         editor.putInt("temp_c" , temp_c);
                         editor.putString("weather" , weather);
+                        editor.putInt("wind_kph" , wind_kph);
+                        editor.putInt("precip_mm" , precip_mm);
+                        editor.putInt("humidity" , humidity);
+                        editor.putInt("feelslike_c" , feelslike_c);
                         editor.apply();
 
                         // UPDATING NOTIFICATION

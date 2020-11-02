@@ -18,7 +18,12 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView location;
+    TextView city;
+    TextView country;
+    TextView humidity;
+    TextView feelslike_c;
+    TextView precip_mm;
+    TextView wind_kph;
     TextView date;
     TextView weather;
     TextView temp_c;
@@ -30,7 +35,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        location = findViewById(R.id.location);
+        city = findViewById(R.id.city);
+        country = findViewById(R.id.country);
+        feelslike_c = findViewById(R.id.feelslike_c);
+        humidity = findViewById(R.id.humidity);
+        precip_mm = findViewById(R.id.precip_mm);
+        wind_kph = findViewById(R.id.wind_kph);
         date = findViewById(R.id.date);
         weather = findViewById(R.id.weather);
         temp_c = findViewById(R.id.temp_c);
@@ -78,15 +88,18 @@ public class MainActivity extends AppCompatActivity {
                             // UPDATE UI
                             sharedPreferences = getSharedPreferences("MyIp" , 0);
 
-                            String city = sharedPreferences.getString("city" , "Kolkata");
-                            String country = sharedPreferences.getString("country" , "India");
+                            country.setText(sharedPreferences.getString("country" , "India"));
+                            city.setText(sharedPreferences.getString("city" , "Kolkata"));
+                            feelslike_c.setText("Feels like " + sharedPreferences.getInt("feelslike_c" , 25) +"°");
+                            humidity.setText("Humidity : " + sharedPreferences.getInt("humidity" , 0));
+                            precip_mm.setText("Precipitation : " + sharedPreferences.getInt("precip_mm" , 0) + " mm");
+                            wind_kph.setText("Wind Speed : " + sharedPreferences.getInt("wind_kph" , 0) + " Kmph");
 
-                            String loc = city + ", " + country;
-                            location.setText(loc);
+
 
                             date.setText(sharedPreferences.getString("localtime" , "00 : 00 : 00"));
                             weather.setText(sharedPreferences.getString("weather" , "Sunny"));
-                            temp_c.setText(sharedPreferences.getInt("temp_c", 25) + "°C");
+                            temp_c.setText(sharedPreferences.getInt("temp_c", 25) + "°");
 
 
 
@@ -109,16 +122,18 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("MyIp" , 0);
 
-        String city = sharedPreferences.getString("city" , "London");
-        String country = sharedPreferences.getString("country" , "United Kingdom");
+        country.setText(sharedPreferences.getString("country" , "India"));
+        city.setText(sharedPreferences.getString("city" , "Kolkata"));
+        feelslike_c.setText("Feels like " + sharedPreferences.getInt("feelslike_c" , 25) +"°");
+        humidity.setText("Humidity : " + sharedPreferences.getInt("humidity" , 0));
+        precip_mm.setText("Precipitation : " + sharedPreferences.getInt("precip_mm" , 0) + "mm");
+        wind_kph.setText("Wind Speed : " + sharedPreferences.getInt("wind_kph" , 0) + "Kmph");
 
-        String loc = city + ", " + country;
-        location.setText(loc);
 
-        date.setText(sharedPreferences.getString("localtime" , "2020-01-01 00:00"));
+
+        date.setText(sharedPreferences.getString("localtime" , "00 : 00 : 00"));
         weather.setText(sharedPreferences.getString("weather" , "Sunny"));
-        temp_c.setText(sharedPreferences.getInt("temp_c", 25) + "°C");
-
+        temp_c.setText(sharedPreferences.getInt("temp_c", 25) + "°");
 
     }
 }
