@@ -126,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
         city.setText(sharedPreferences.getString("city" , "Kolkata"));
         feelslike_c.setText("Feels like " + sharedPreferences.getInt("feelslike_c" , 25) +"°");
         humidity.setText("Humidity • " + sharedPreferences.getInt("humidity" , 0));
-        precip_mm.setText("Precipitation • " + sharedPreferences.getInt("precip_mm" , 0) + "mm");
-        wind_kph.setText("Wind Speed • " + sharedPreferences.getInt("wind_kph" , 0) + "Kmph");
+        precip_mm.setText("Precipitation • " + sharedPreferences.getInt("precip_mm" , 0) + " mm");
+        wind_kph.setText("Wind Speed • " + sharedPreferences.getInt("wind_kph" , 0) + " Kmph");
 
 
 
