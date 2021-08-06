@@ -18,7 +18,7 @@ public class Notification extends ContextWrapper {
         super(context);
         this.context = context;
 
-        // CHANNEL MUST BE CREATED IN THE CONSTRUCTOR
+        // Channel must be created in constructor
         createNotificationChannel();
 
     }
@@ -27,6 +27,7 @@ public class Notification extends ContextWrapper {
 
         String channel_name = "channel_name";
         String channel_description = "channel_description";
+
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -34,6 +35,7 @@ public class Notification extends ContextWrapper {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("NOTF", channel_name, importance);
             channel.setDescription(channel_description);
+
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -44,18 +46,17 @@ public class Notification extends ContextWrapper {
 
     public void createNotification(String content , String title)
     {
+        // Setup Notification Builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "NOTF")
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-
-
         int notificationId = 1;
+        // Build Notification
         notificationManager.notify(notificationId, builder.build());
     }
 

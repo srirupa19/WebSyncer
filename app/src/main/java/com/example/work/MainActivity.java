@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // Get data from text fields
         city = findViewById(R.id.city);
         country = findViewById(R.id.country);
         feelslike_c = findViewById(R.id.feelslike_c);
@@ -45,20 +45,14 @@ public class MainActivity extends AppCompatActivity {
         weather = findViewById(R.id.weather);
         temp_c = findViewById(R.id.temp_c);
 
-
-        // CREATE SHARED PREFERENCES
+        // Crate shared preferences to store data
         sharedPreferences = getSharedPreferences("MyIp" , 0);
 
-
-        // CREATE DATA OBJECT FOR PASSING DATA TO WORK MANAGER (IF NEEDED)
-
-        // Create the Data object:
+        // Create the Data object to pass data to Work Manager if needed
         Data myData = new Data.Builder()
                 .build();
 
-        // BUILD WORK REQUEST FOR WORK MANAGER
-
-
+        // Setup a periodic Work Request
         PeriodicWorkRequest mathWork =
                 new PeriodicWorkRequest.Builder(MathWorker.class, 15, TimeUnit.MINUTES)
                         .setInputData(myData)
@@ -66,18 +60,10 @@ public class MainActivity extends AppCompatActivity {
                         // Constraints
                         .build();
 
-
-
-
-        // GET INSTANCE OF WORK MANAGER
+        // Get instance of Work Manager to queue the Work
         WorkManager.getInstance(this).enqueue(mathWork);
 
-//        WorkManager.getInstance(this)
-//                .enqueueUniquePeriodicWork("jobTag", ExistingPeriodicWorkPolicy.KEEP, mathWork);
-
-
-
-        // CHANGE UI AFTER WORK IS COMPLETED
+        // Update UI after Worker Data changes/after data is fetched
         WorkManager.getInstance(this).getWorkInfoByIdLiveData(mathWork.getId())
                 .observe(this, new Observer<WorkInfo>() {
                     @SuppressLint("SetTextI18n")
@@ -85,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onChanged(WorkInfo info) {
                         if (info != null && info.getState().isFinished())
                         {
-                            // UPDATE UI
+                            // Update UI
                             sharedPreferences = getSharedPreferences("MyIp" , 0);
 
                             country.setText(sharedPreferences.getString("country" , "India"));
@@ -95,31 +81,19 @@ public class MainActivity extends AppCompatActivity {
                             precip_mm.setText("Precipitation • " + sharedPreferences.getInt("precip_mm" , 0) + " mm");
                             wind_kph.setText("Wind Speed • " + sharedPreferences.getInt("wind_kph" , 0) + " Kmph");
 
-
-
                             date.setText(sharedPreferences.getString("localtime" , "00:00:00"));
                             weather.setText(sharedPreferences.getString("weather" , "Sunny"));
                             temp_c.setText(sharedPreferences.getInt("temp_c", 25) + "°");
-
-
-
                         }
                     }
                 });
-
-
-
-
-
     }
-
-
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onResume() {
         super.onResume();
-
+        // Update UI after resuming
         sharedPreferences = getSharedPreferences("MyIp" , 0);
 
         country.setText(sharedPreferences.getString("country" , "India"));
@@ -129,11 +103,8 @@ public class MainActivity extends AppCompatActivity {
         precip_mm.setText("Precipitation • " + sharedPreferences.getInt("precip_mm" , 0) + " mm");
         wind_kph.setText("Wind Speed • " + sharedPreferences.getInt("wind_kph" , 0) + " Kmph");
 
-
-
         date.setText(sharedPreferences.getString("localtime" , "00:00:00"));
         weather.setText(sharedPreferences.getString("weather" , "Sunny"));
         temp_c.setText(sharedPreferences.getInt("temp_c", 25) + "°");
-
     }
 }

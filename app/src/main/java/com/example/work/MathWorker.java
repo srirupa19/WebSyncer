@@ -28,49 +28,43 @@ import org.json.JSONObject;
 
 
 public class MathWorker extends Worker {
-
-
+    
     Context context;
     Notification notification;
 
     public SharedPreferences sharedPreferences ;
-
 
     public MathWorker(
             @NonNull Context context,
             @NonNull WorkerParameters params) {
         super(context, params);
 
-        // SET CONTEXT AND NOTIFICATION
+        // Set context
         this.context = context;
 
+        // Create a notification
         notification = new Notification(getApplicationContext());
     }
 
     @NonNull
     @Override
     public Result doWork() {
+        String s = "Test String";
 
-        String s = "Text";
-
-
-
-        // SET UP REQUEST QUEUE FOR WORK
-
+        // Setup network request
         RequestQueue queue = Volley.newRequestQueue(this.getApplicationContext());
         String url ="https://api.weatherapi.com/v1/current.json?key=71fcd39df6a84daba6471105203010&q=Kolkata";
 
-
-        // WEB REQUEST USING VOLLEY
+        // Create a new JSON Object
         JSONObject obj = new JSONObject();
         try {
             obj.put("id", "1");
-            obj.put("name", "myName");
+            obj.put("name", "Weather");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
+        // Web request using volley
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET , url , obj ,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -78,6 +72,7 @@ public class MathWorker extends Worker {
 
                         String text = response.toString();
 
+                        // Set default values
                         JSONObject location;
                         String city = "Kolkata";
                         String country = "India";
@@ -93,7 +88,7 @@ public class MathWorker extends Worker {
                         int humidity = 0;
                         int feelslike_c = 25;
 
-
+                        // Update responses
                         try {
                             location = response.getJSONObject("location");
                             city = location.getString("name");
@@ -112,20 +107,12 @@ public class MathWorker extends Worker {
                             show =  "Feels like " + feelslike_c + "°C • " + weather;
                             title = temp_c + "°C " + "in " + city;
 
-
-
-
-
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.e("TAG" , show);
-
                         }
 
-                        // SENDING TO UI THREAD VIA SHARED PREFERENCES
-
+                        // Sending to UI thread via shared preferences
                         sharedPreferences =getApplicationContext().getSharedPreferences("MyIp",0);
                         SharedPreferences.Editor editor=sharedPreferences.edit();
                         editor.putString("Key" , text);
@@ -140,26 +127,13 @@ public class MathWorker extends Worker {
                         editor.putInt("feelslike_c" , feelslike_c);
                         editor.apply();
 
-                        // UPDATING NOTIFICATION
-
+                        // Update Notification
                         notification.createNotification(show , title);
-
-
-
-
-
-
                     }
                 } , new Response.ErrorListener(){
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
-//                String text = "OOPS";
-//                Toast toast=Toast. makeText(getApplicationContext(),text,Toast. LENGTH_LONG);
-//                toast. setMargin(50,50);
-//                toast. show();
-
                 String TAG = "ERROR";
 
                 if (error instanceof TimeoutError) {
@@ -173,30 +147,16 @@ public class MathWorker extends Worker {
                 } else {
                     Log.e(TAG, "onErrorResponse: Something went wrong ");
                 }
-
-                }
-
-
-
+            }
         });
 
+        // Add JSON object request to queue
         queue.add(jsonObjectRequest);
 
-
-
-        // RETURN DATA FROM WORK IF NEEDED
+        // Return data from Work if needed
         Data output = new Data.Builder()
                 .putString("S" , s)
                 .build();
         return Result.success(output);
     }
-
-
-
-
-
-
-
-
-
 }
